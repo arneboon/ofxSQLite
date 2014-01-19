@@ -39,10 +39,13 @@ class ofxSQLiteUpdate {
         ofxSQLiteUpdate& whereOperator(std::string sField, T mValue, OperatorType operatorType) {
             return where(sField, mValue, WHERE, operatorType);
         }
-        
         template<typename T>
         ofxSQLiteUpdate& andWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
             return where(sField, mValue, WHERE_AND, operatorType);
+        }
+        template<typename T>
+        ofxSQLiteUpdate& orWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_OR, operatorType);
         }
 		template<typename T>
 		ofxSQLiteUpdate& where(std::string sField, T mValue, int nType, OperatorType operatorType = OP_EQUAL) {

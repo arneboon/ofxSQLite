@@ -76,6 +76,11 @@ class ofxSQLiteWhere {
         }
     
         template<typename T>
+        ofxSQLiteWhere& orWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_OR, operatorType);
+        }
+    
+        template<typename T>
         ofxSQLiteWhere& where(std::string sField, T mValue, int nType, OperatorType operatorType = OP_EQUAL) {
             //--default operator type is OP_EQUAL
             //--can pass  OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_THAN, OP_LESS_EQUAL_THAN, OP_LIKE, OP_EQUAL

@@ -35,11 +35,24 @@ class ofxSQLiteDelete {
 		ofxSQLiteDelete& andWhere(std::string sField, T mValue) {
 			return where(sField, mValue, WHERE_AND);
 		}
-		template<typename T>
-		ofxSQLiteDelete& where(std::string sField, T mValue, int nType) {
-			wheres.where(sField, mValue, nType);
-			return *this;
-		}
+    
+        template<typename T>
+        ofxSQLiteDelete& whereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE, operatorType);
+        }
+        template<typename T>
+        ofxSQLiteDelete& orWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_OR, operatorType);
+        }
+        template<typename T>
+        ofxSQLiteDelete& andWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_AND, operatorType);
+        }
+        template<typename T>
+        ofxSQLiteDelete& where(std::string sField, T mValue, int nType, OperatorType operatorType = OP_EQUAL) {
+            wheres.where(sField, mValue, nType, operatorType);
+            return *this;
+        }
 
 	private:
 		std::string table;

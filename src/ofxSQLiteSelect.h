@@ -62,6 +62,11 @@ class ofxSQLiteSelect {
         ofxSQLiteSelect& andWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
             return where(sField, mValue, WHERE_AND, operatorType);
         }
+    
+        template<typename T>
+        ofxSQLiteSelect& orWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_OR, operatorType);
+        }
 		
 		template<typename T>
         ofxSQLiteSelect& where(std::string sField, T mValue, int nType, OperatorType operatorType = OP_EQUAL) {
