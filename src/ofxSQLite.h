@@ -46,7 +46,7 @@ class ofxSQLite {
 		ofxSQLiteSelect select(std::string sFields);
 		void printTable(std::string sTable);
 		
-		ofxSQLiteSimpler operator[](const std::string sKeyValue);
+//		ofxSQLiteSimpler operator[](const std::string sKeyValue);
 		
 		int lastInsertID();
 		const char* getError();

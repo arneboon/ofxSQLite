@@ -62,10 +62,10 @@ int ofxSQLite::lastInsertID() {
 	return sqlite3_last_insert_rowid(db);
 }
 
-ofxSQLiteSimpler ofxSQLite::operator[](const std::string sKeyValue)  {
-	ofxSQLiteSimpler simple(*this, sKeyValue);
-	return simple;
-}
+//ofxSQLiteSimpler ofxSQLite::operator[](const std::string sKeyValue)  {
+//	ofxSQLiteSimpler simple(*this, sKeyValue);
+//	return simple;
+//}
 
 void ofxSQLite::printTable(std::string sTable) {
 	cout << select("*").from(sTable).execute().getResultAsAsciiTable();

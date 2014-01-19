@@ -64,57 +64,36 @@ class ofxSQLiteWhere {
 		ofxSQLiteWhere& andWhere(std::string sField, T mValue) {
 			return where(sField, mValue, WHERE_AND);
 		}
-
-		template<typename T>
-		ofxSQLiteWhere& where(std::string sField, T mValue, int nType) {
-			// It's also possible to use the where like:
-			// andWhere('fieldname > ?',value), by default we use "=" as
-			// comparator.
-			std::stringstream ss(sField);
-			std::string part;
-			std::string prev_part = "";
-			int sql_operator = 0;
-			while(ss) {
-				ss >> part;
-				if(part == "<") {
-					sql_operator = OP_LESS_THAN; 
-				}
-				else if(part == ">") {
-					sql_operator = OP_GREATER_THAN;
-				}
-				else if(part == "<=") {
-					sql_operator = OP_LESS_EQUAL_THAN;
-				}
-				else if(part == ">=") {
-					sql_operator = OP_GREATER_EQUAL_THAN;
-				}
-				
-				if(sql_operator != 0) {
-					//div = part;
-					//has_questionmark = true;
-					sField = prev_part;
-					break;
-				}
-				prev_part = part;
-			}
-			
-			// when no other operator found we use the default one...
-			if(sql_operator == 0) {
-				sql_operator = OP_EQUAL;
-			}
-			if(nType == WHERE_LIKE || nType == WHERE_OR_LIKE || nType == WHERE_AND_LIKE) {
-				sql_operator = OP_LIKE;
-			}
-			
-			int field_value_index = where_values.use(sField, mValue);
-			where_values.at(field_value_index).setOperatorType(sql_operator);
-			
-			struct Where where;
-			where.type = nType;
-			where.field_index = where_values.size() - 1;
-			wheres.push_back(where);
- 			return *this;
-		}
+    
+        template<typename T>
+        ofxSQLiteWhere& whereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE, operatorType);
+        }
+    
+        template<typename T>
+        ofxSQLiteWhere& andWhereOperator(std::string sField, T mValue, OperatorType operatorType) {
+            return where(sField, mValue, WHERE_AND, operatorType);
+        }
+    
+        template<typename T>
+        ofxSQLiteWhere& where(std::string sField, T mValue, int nType, OperatorType operatorType = OP_EQUAL) {
+            //--default operator type is OP_EQUAL
+            //--can pass  OP_GREATER_THAN, OP_GREATER_EQUAL_THAN, OP_LESS_THAN, OP_LESS_EQUAL_THAN, OP_LIKE, OP_EQUAL
+            int sql_operator = operatorType;
+            
+            if(nType == WHERE_LIKE || nType == WHERE_OR_LIKE || nType == WHERE_AND_LIKE) {
+                sql_operator = OP_LIKE;
+            }
+            
+            int field_value_index = where_values.use(sField, mValue);
+            where_values.at(field_value_index).setOperatorType(sql_operator);
+            
+            struct Where where;
+            where.type = nType;
+            where.field_index = where_values.size() - 1;
+            wheres.push_back(where);
+            return *this;
+        }
 		
 		ofxSQLiteWhere& whereNull(std::string sField) {
 			where_values.use(sField);
